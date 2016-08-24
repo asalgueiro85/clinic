@@ -1,0 +1,60 @@
+{% extends '::front_layout.html.twig' %}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-success">
+                <div  class="box-header">
+                    <h3 class="box-title col-lg-11">Adicionar vacuna</h3>
+                    <a class="col-lg-1" href="{{ path('vacuna') }}">
+                        <i class="fa fa-fw fa-reply ">Volver</i>
+                    </a>
+                </div>
+                <form id="form_vacuna_new" action="{{ path('vacuna_create') }} " role="form"
+                      method="post" {{ form_enctype(form) }}>
+                    <div class="box-body">
+                        <div class="form-group">
+                            {{ form_label(form.nombre) }}
+                            {{ form_widget(form.nombre) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.caduca) }}
+                            {{ form_widget(form.caduca) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.descripcion) }}
+                            {{ form_widget(form.descripcion) }}
+                            {{ form_errors(form) }}
+                            {{ form_widget(form._token) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.estado) }}
+                            {{ form_widget(form.estado) }}
+
+
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <button type="submit" class="btn btn-block btn-primary "><span
+                                            class="icon-checkmark"></span> Crear
+                                </button>
+
+                            </div>
+                            <div class="col-lg-2">
+                                <a class="btn btn-block btn-default " href="{{ path('vacuna') }}">
+                                    <span class="icon-cancel-2"></span> Cancelar
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

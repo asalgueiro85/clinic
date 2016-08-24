@@ -1,0 +1,225 @@
+{% extends '::front_layout.html.twig' %}
+
+ {% block cliente %} active {% endblock %}
+
+{% block body -%}
+    {#<h1><i class="fa fa-users"></i> Usuarios</h1>#}
+    Cliente(s):
+    {% for cliente in entity.clientes %}
+        {{ cliente.nombre }}
+        {% if not loop.last %}
+            -
+        {% endif %}
+    {% endfor %}
+
+    <div class="box box-solid box-primary">
+        <div class="box-header">
+            <h3 class="box-title">Modificar Mascota</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form id="form_mascota" {{ form_start(edit_form) }}
+
+
+        <div class="box-body">
+            {{ form_errors(edit_form) }}
+            <div class="box-body">
+                <!-- Custom tabs (Charts with tabs)-->
+                <div class="nav-tabs-custom">
+                    <!-- Tabs within a box -->
+                    <ul class="nav nav-tabs">
+                        <li class="active"> <a href="#tab_gen" data-toggle="tab">  General</a></li>
+                        <li> <a href="#tab_foto" data-toggle="tab">Foto</a></li>
+                        <li> <a href="#tab_ext" data-toggle="tab">Extra</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab_gen" class="chart tab-pane active">
+                            <div class="row">
+                                <div class="col-lg-6 form-group">
+                                    {{ form_row(edit_form.nombre) }}
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    {{ form_row(edit_form.sexo) }}
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    {{ form_row(edit_form.esterilizacion) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3  form-group">
+                                    {{ form_errors(edit_form.fechaNacimiento) }}
+
+                                    <label>Fecha de nacimiento</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        {{ form_widget(edit_form.fechaNacimiento) }}
+                                    </div><!-- /.input group -->
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Especie</label><br>
+                                    <select class="form-group"  id="appbundle_mascota_especie">
+                                        {% for especie in especies %}
+                                            <option value="{{ especie.id }}">{{ especie.nombre }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    {{ form_row(edit_form.raza) }}
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    {{ form_row(edit_form.pelaje) }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 form-group">
+                                    {{ form_row(edit_form.estadoMascota) }}
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div id="tab_foto" class="chart tab-pane ">
+                            <div class="row">
+                                <div class="col-md-5">
+
+                                    <div class="panel">
+                                        <div class="box box-solid box-success">
+                                            <div class="box-header">
+                                                {{ form_widget(edit_form.foto) }}
+                                            </div>
+                                            <div class="box-body">
+                                                {% if entity.rutaFoto is empty %}
+                                                    <img id="dir_foto" class="img-thumbnail" width="100%"
+                                                         src="{{ asset('uploads/images/logo/logo.png') }}" alt=""/>
+                                                {% else %}
+                                                    <img id="dir_foto" class="img-thumbnail" width="100%"
+                                                         src="{{ asset('uploads/images/mascotas/') }}{{ entity.rutaFoto }}" alt=""/>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div id="tab_ext" class="chart tab-pane">
+                            <div class="row">
+                                <div class="col-lg-3 form-group">
+                                    {{ form_row(edit_form.pedigri) }}
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    {{ form_row(edit_form.numPedigri) }}
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    {{ form_row(edit_form.chip) }}
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    {{ form_row(edit_form.caracter) }}
+                                </div>
+                                <div class="col-lg-12 form-group">
+                                    {{ form_row(edit_form.dieta) }}
+                                </div>
+                                <div class="col-lg-12 form-group">
+                                    {{ form_row(edit_form.observaciones) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.nav-tabs-custom -->
+                <!-- /.box-body -->
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Aceptar</button>
+                <a class="btn btn-default" href="{{ path('cliente') }}">Cancelar</a>
+            </div>
+
+            {{ form_rest(edit_form) }}
+            {{ form_end(edit_form) }}
+        </div>
+
+
+
+    </div>
+{% endblock %}
+
+   {% block javascripts %}
+       <script>
+           $("#appbundle_mascota_especie").change(function(){
+
+               var data = {
+                   especie_id: $(this).val()
+               };
+
+               $.ajax({
+                   type: 'post',
+                   url: '{{ path("especie_raza") }}',
+                   data: data,
+                   dataType: 'json',
+                   success: function(data)
+                   {
+                       $('#appbundle_mascota_raza').html(data);
+                       for (var i=0, total = data.length; i < total; i++) {
+                           $('#appbundle_mascota_raza').append('<option value="' + data[i].id + '">' + data[i].nombre + '</option>');
+                       }
+
+                   }
+
+
+               });
+           });
+
+
+           $("#form_mascota").submit(function (event) {
+
+               var mensaje = "";
+               var flag = true;
+
+
+               if ($("#appbundle_mascota_nombre").val() == "") {
+                   mensaje += "<li> Debe llenar el campo Nombre. </li>";
+                   flag = false;
+               }
+               if ($("#appbundle_mascota_fechaNacimiento").val() == "") {
+                   mensaje += "<li> Debe llenar el campo Fecha de Nacimiento. </li>";
+                   flag = false;
+               }
+               if ($("#appbundle_mascota_pedigri").val() == 1  && $("#appbundle_mascota_numPedigri").val() == ""  ) {
+                   mensaje += "<li> Debe llenar el campo Número de pedigrí. </li>";
+                   flag = false;
+               }
+               if ($("#appbundle_mascota_pedigri").val() != 1  && $("#appbundle_mascota_numPedigri").val() != ""  ) {
+                   mensaje += "<li> La selección del campo Pedigrí no es correcta. </li>";
+                   flag = false;
+               }
+//               if ($("#appbundle_mascota_dieta").val() == "") {
+//                   mensaje += "<li> Debe llenar el campo Dieta. </li>";
+//                   flag = false;
+//               }
+//               if ($("#appbundle_mascota_numPedigri").val() == "") {
+//                   mensaje += "<li> Debe llenar el campo Número de pedigrí. </li>";
+//                   flag = false;
+//               }
+//               if ($("#appbundle_mascota_chip").val() == "") {
+//                   mensaje += "<li> Debe llenar el campo Chip. </li>";
+//                   flag = false;
+//               }
+
+               if (!flag) {
+                   event.preventDefault();
+                   errores(mensaje);
+
+               }
+           });
+
+           $("input#appbundle_mascota_foto").change(function () {
+               var image = this.files[0];
+               $('#dir_foto').attr("src", window.URL.createObjectURL(image));
+           });
+       </script>
+
+   {% endblock %}

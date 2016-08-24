@@ -1,0 +1,55 @@
+
+<!-- page script -->
+<script type="text/javascript">
+    $(function () {
+        $("#example1").dataTable();
+        $('#example2').dataTable({
+            "bPaginate": true,
+            "bLengthChange": false,
+            "bFilter": false,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": false
+        });
+        //Timepicker
+        $(".timepicker").timepicker({
+            showInputs: false
+        });
+    });
+
+    function eliminar($var) {
+        $('#confirm_dalete').attr("href", $var);
+        $('#delete_modal').modal('show');
+    }
+
+    function errores(val) {
+        $('#mensaje_error').text("");
+        $('#mensaje_error').append(val);
+        $('#error_modal').modal('show');
+    }
+
+    function cambiar($var) {
+        $('#confirm_cambio').attr("href", $var);
+        $('#cambio_modal').modal('show');
+    }
+
+    //    scrips par aactivar el datapiker
+    $('#appbundle_mascota_fechaNacimiento, #clinica_frontbundle_cliente_fechaNacimiento').datetimepicker({
+        lang:'es',
+        timepicker:false,
+        format:'d/m/Y'
+    });
+    //    Scrips para activar el select2 de las etiquetas select
+    $("select" ).select2({
+        placeholder: "Seleccione una Opción"
+//      minimumInputLength: 2
+    });
+
+
+    //Flat red color scheme for iCheck
+    $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'iradio_flat-green'
+    });
+
+</script>

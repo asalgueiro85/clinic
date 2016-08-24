@@ -1,0 +1,97 @@
+{% extends '::front_layout.html.twig' %}
+
+{% block body -%}
+    <div class="row">
+        <div class="col-lg-11">
+            <h2><span class="icon-user"></span> {{ entity.nombre }} {{ entity.apellidos }}</h2>
+        </div>
+        <div class="col-lg-1" align="right">
+            <a href="{{ path('cliente') }}"><i class="fa fa-times"></i></a>
+
+        </div>
+
+    </div>
+
+ <div class="panel">
+     <div class="panel-content">
+         <div class="row">
+             <div class="col-lg-6">
+
+                 <legend>
+                     <span class="fa fa-info-circle" style="padding: 20px"></span> Información
+                 </legend>
+                 <div class="col-lg-12">
+                     <span class="fa  fa-envelope"></span> <b> Correo</b>
+                     <div style="margin-left: 5%">
+
+                         {% for contacto in entity.contactos %}
+                         {% if contacto.email is not empty %}
+                             {{ contacto.email }}<br>
+                         {% endif %}
+                         {% endfor %}
+                     </div>
+                     <br>
+                     <span class="fa fa-phone"></span> <b>  Número</b>
+                     <div style="margin-left: 5%">
+                         {% for contacto in entity.contactos %}
+                             {% if contacto.numero is not empty %}
+                             {{ contacto.numero }}<br>
+                                {% endif %}
+                         {% endfor %}
+                     </div>
+                     <br>
+                     <span class="fa fa-indent"></span  ><b> Identificación</b>
+                     <div style="margin-left: 5%">
+                         {{ entity.identficacion }}
+                     </div>
+
+                     <br>
+                     <br>
+
+                 </div>
+
+             </div>
+
+
+             <div class="col-lg-6">
+
+                 <legend>
+                     <span class="fa fa-github " style="padding: 20px"> </span>Mascotas
+                     <div class="pull-right" style="padding: 10px">
+                         <a href="{{ path('mascota_new', { 'id': entity.id }) }}" class="btn  btn-xs btn-primary">Adicionar mascota</a>
+                     </div>
+
+                     {#<a href="{{ path('mascota_new', { 'id': entity.id }) }}"><i class="icon-plus " style="margin-left: 50%"></i>Adicionar</a>#}
+                 </legend>
+                 {% for mascota in entity.mascotas %}
+
+                     <a href="{{ path('mascota_edit', { 'id': mascota.id }) }}">{{ mascota.nombre }}</a><br>
+
+                 {% endfor %}
+                 <br>
+                 <legend> <span class="fa fa-shopping-cart" style="padding: 20px"></span>Compras </legend>
+                 Ningún registro
+
+                 </div>
+
+             </div>
+
+
+         </div>
+     </div>
+ </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script>
+        $(function(){
+            $("#scrollbox2").scrollbar({
+                axis: 'x',
+                height: 100px
+            });
+        });
+    </script>
+
+
+{% endblock %}

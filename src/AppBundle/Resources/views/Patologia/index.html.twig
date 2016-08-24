@@ -1,0 +1,61 @@
+ {% extends '::front_layout.html.twig' %}
+
+{% block body -%}
+    <h2>  Patologías</h2>
+    <div class="row">
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-success">
+                <div class="box-header">
+                    <h3 class="box-title">Listado de Patologías</h3>
+                    <div class="pull-right">
+                        <a href="{{ path('patologia_new') }}" class="btn  btn-xs btn-primary">Adicionar</a>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th  >Nombre</th>
+                            <th class="col-lg-2 text-center">Estado</th>
+                            <th class="col-lg-1 text-center">Editar</th>
+                            <th class="col-lg-1 text-center">Eliminar</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for entity in entities %}
+                            <tr>
+                                <td>{{ entity.nombre }}</td>
+                                <td>
+                                    {% if entity.estado %}
+                                        <span class="badge center-block" style="padding-left: 2%; padding-right: 2%; background: green">Activo</span>
+                                    {% else %}
+                                        <span class="badge center-block" style="padding-left: 2%; padding-right: 2%; background: red">Inactivo</span>
+                                    {% endif %}
+                                </td>
+
+
+                                <td class="span1 text-center"><a href="{{ path('patologia_edit', { 'id': entity.id }) }}">
+                                        <span class="fa fa-fw fa-edit"></span></a></td>
+
+                                <td class="span1 text-center"><a href="{{ path('patologia_delete', { 'id': entity.id }) }}">
+                                        <span class="fa fa-fw fa-trash"></span></a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th >Nombre</th>
+                            <th class="col-lg-2 text-center">Estado</th>
+                            <th class="col-lg-1 text-center">Editar</th>
+                            <th class="col-lg-1 text-center">Eliminar</th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

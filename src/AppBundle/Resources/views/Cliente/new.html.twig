@@ -1,0 +1,391 @@
+{% extends '::front_layout.html.twig' %}
+
+ {% block cliente %} active {% endblock %}
+{% block body -%}
+    <h1><i class="fa fa-tag"></i> Cliente</h1>
+
+    <div class="box box-solid box-primary">
+        <div class="box-header">
+            <h3 class="box-title col-lg-11">Adicionar Cliente</h3>
+            {#<a class="col-lg-1" href="{{ path('cliente') }}">#}
+            {#<i class="fa fa-fw fa-reply ">Volver</i>#}
+            {#</a>#}
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form id="form_cliente" action="{{ path('cliente_create') }} " role="form"
+              method="post" {{ form_enctype(form) }}>
+            <div class="box-body">
+                {{ form_errors(form) }}
+                <div class="box-body">
+                    <!-- Custom tabs (Charts with tabs)-->
+                    <div class="nav-tabs-custom">
+                        <!-- Tabs within a box -->
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab_gen" data-toggle="tab"> General</a></li>
+                            <li><a href="#tab_dir" data-toggle="tab">Dirección</a></li>
+                            <li><a href="#tab_ext" data-toggle="tab">Extra</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab_gen" class="chart tab-pane active">
+                                {{ form_errors(form) }}
+                                <div class="row">
+                                    <div class="col-lg-3  form-group">
+                                        {{ form_row(form.nombre  ) }}
+                                    </div>
+                                    <div class="col-lg-6  form-group">
+                                        {{ form_row(form.apellidos  ) }}
+                                    </div>
+                                    <div class="col-lg-3  form-group">
+                                        {{ form_row(form.nacionalidad  ) }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3  form-group">
+                                        {{ form_row(form.sexo  ) }}
+                                    </div>
+                                    <div class="col-lg-3  form-group">
+                                        {{ form_row(form.tipoIdentificacion  ) }}
+                                    </div>
+                                    <div class="col-lg-3  form-group">
+                                        {{ form_row(form.identficacion  ) }}
+                                    </div>
+                                    <div class="col-lg-3  form-group">
+                                        {{ form_row(form.tipoCliente  ) }}
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-lg-3  form-group">
+                                        {{ form_errors(form.fechaNacimiento) }}
+
+                                        <label>Fecha de nacimiento</label>
+
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            {{ form_widget(form.fechaNacimiento) }}
+                                        </div>
+                                        <!-- /.input group -->
+                                    </div>
+                                    <div class="col-lg-9  form-group">
+                                        {{ form_row(form.referencia  ) }}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <br>
+
+                                    <div class="col-lg-12">
+                                        <a href="#" class="element"><span class="icon-phone"></span> CONTACTOS </a>
+
+                                        <div class="pull-right input-group-btn">
+                                            <button type="button" class="btn btn-success btn-xs dropdown-toggle"
+                                                    data-toggle="dropdown"><span class="fa fa-plus"></span></button>
+                                            <ul class="dropdown-menu">
+
+
+                                                {% for tipo in tcontactos %}
+                                                    <li><a id="add_{{ tipo.variable }}"
+                                                           href="#">{{ tipo.opcion }}</a></li>
+                                                {% endfor %}
+
+
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div id="contacto" class="col-lg-12 contacto"
+                                         data-prototype="{{ form_widget(form.contactos.vars.prototype)| e }}">
+                                        <br/>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div id="tab_dir" class="chart tab-pane ">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-12  form-group">
+                                                {{ form_row(form.direccion.direccion) }}
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-3 ">
+                                                <label>País</label><br>
+                                                <select class="form-group" id="select1" name="select1">
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-lg-3">
+                                                <label>Departamento</label><br>
+                                                <select class="form-group" id="select2" name="select2">
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <label>Provincia</label><br>
+                                                <select class="form-group" id="select3" name="select3">
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <label>Distrito</label><br>
+                                                <select class="form-group" id="select4" name="select4">
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 form-group">
+                                                {{ form_row(form.direccion.referencia) }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    {{ form_widget(form._token) }}
+                                </div>
+                            </div>
+
+                            <div id="tab_ext" class="chart tab-pane">
+                                <div class="row">
+
+                                    <div class="col-lg-12 form-group">
+                                        {{ form_row(form.observaciones) }}
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.nav-tabs-custom -->
+                    <!-- /.box-body -->
+                </div>
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-primary">Aceptar</button>
+                    <a class="btn btn-default" href="{{ path('cliente') }}">Cancelar</a>
+                </div>
+
+                {{ form_errors(form) }}
+                {{ form_widget(form._token) }}
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+
+   {% block javascripts %}
+       <script type="text/javascript" src="{{ asset('bootstrap/hCombos.js') }}"></script>
+
+       <script type="text/javascript" charset="utf-8">
+
+           var result = 'pepe';
+
+           $.ajax({
+               type: 'post',
+               url: '{{ path("combos_dependientes") }}',
+//           data: data,
+               dataType: 'json',
+               success: function (data) {
+                   result = data;
+                   var combos = new hCombos();
+                   combos.ids = ['select1', 'select2', 'select3', 'select4'];
+                   console.info(result);
+                   combos.info = result;
+                   combos.init();
+
+               }
+
+
+           });
+
+           $("#form_cliente").submit(function (event) {
+
+               var mensaje = "";
+               var flag = true;
+
+
+               if ($("#clinica_frontbundle_cliente_nombre").val() == "") {
+                   mensaje += "<li> Debe llenar el campo Nombre. </li>";
+                   flag = false;
+               }
+               if ($("#clinica_frontbundle_cliente_apellidos").val() == "") {
+                   mensaje += "<li> Debe llenar el campo Apelliddos. </li>";
+                   flag = false;
+               }
+               if ($("#clinica_frontbundle_cliente_identificacion").val() == "") {
+                   mensaje += "<li> Debe llenar el campo Nro de Identificación. </li>";
+                   flag = false;
+               }
+               if ($("#clinica_frontbundle_cliente_direccion_direccion").val() == "") {
+                   mensaje += "<li> Debe llenar el campo Dirección. </li>";
+                   flag = false;
+               }
+               if ($("#select1").val() == "") {
+                   mensaje += "<li> Debe seleccioar un Pais. </li>";
+                   flag = false;
+               }
+               if ($("#select2").val() == "") {
+                   mensaje += "<li> Debe seleccioar un Departamento. </li>";
+                   flag = false;
+               }
+               if ($("#select3").val() == "") {
+                   mensaje += "<li> Debe seleccioar un Provincia. </li>";
+                   flag = false;
+               }
+               if ($("#select4").val() == "") {
+                   mensaje += "<li> Debe seleccioar un Distrito. </li>";
+                   flag = false;
+               }
+               if ($('div.contacto').find(':input').length < 4) {
+                   mensaje += "<li> Debe adicionar al menos un Contacto. </li>";
+                   flag = false;
+               }
+
+               if (!flag) {
+                   event.preventDefault();
+                   errores(mensaje);
+
+               }
+           });
+
+
+           var $collectionHolder;
+           // setup an "add a tag" link
+           {#alert('{{ entity.contactos|length }}')#}
+
+
+           var $newLinkLi = $('<div></div>');
+
+
+           // Get the ul that holds the collection of tags
+           $collectionHolder = $('div.contacto');
+           // add the "add a tag" anchor and li to the tags ul
+           $collectionHolder.append($newLinkLi);
+
+
+           // count the current form inputs we have (e.g. 2), use that as the new
+           // index when inserting a new item (e.g. 2)
+           $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+           {% for tipo in tcontactos %}
+
+           $('#add_{{ tipo.variable}}').on('click', function (e) {
+               e.preventDefault();
+               addTagForm($collectionHolder, $newLinkLi, {{ tipo.id }});
+           });
+
+           {% endfor %}
+
+
+           function addTagForm($collectionHolder, $newLinkLi, $opt) {
+               // Get the data-prototype explained earlier
+               var prototype = $collectionHolder.data('prototype');
+               // get the new index
+               var index = $collectionHolder.data('index');
+               // Replace '__name__' in the prototype's HTML to
+               // instead be a number based on how many items we have
+
+//
+
+               var correo = '<div id="correo" class="col-lg-4 form-group">' +
+                       '<input class="form-control" type="email" id="clinica_frontbundle_cliente_contactos___name___email" name="clinica_frontbundle_cliente[contactos][__name__][email]" required="required" placeholder="Correo" />' +
+                       '</div>';
+               var observaciones = '<div id="observaciones" class="col-lg-5 form-group"> ' +
+                       '<input class="form-control" id="clinica_frontbundle_cliente_contactos___name___observaciones" name="clinica_frontbundle_cliente[contactos][__name__][observaciones]" required="required" placeholder="Observaciones" />' +
+                       '</div>';
+               var numero = '<div id="numero" class="col-lg-4 form-group"> ' +
+                       '<input class="form-control" type="text" id="clinica_frontbundle_cliente_contactos___name___numero" name="clinica_frontbundle_cliente[contactos][__name__][numero]" required="required" maxlength="20" placeholder="Número"  />' +
+                       '</div>';
+               var servicio = '<div id="servicio" class="col-lg-4 form-group"> ' +
+                       '<input class="form-control" type="number" id="clinica_frontbundle_cliente_contactos___name___servicio" name="clinica_frontbundle_cliente[contactos][__name__][servicio]" required="required" placeholder="Servicio"  />' +
+                       '</div>';
+
+               var option = '';
+               var label = '';
+               var aux = '';
+               var campo = '';
+
+               {% for tipo in tcontactos %}
+               if ($opt == {{ tipo.id }}) {
+                   option = '<option value="{{ tipo.id }}">{{ tipo.opcion }}</option>';
+                   label = '{{ tipo.opcion }}';
+                   aux = '{{ tipo.variable }}';
+                   campo = '<div id="{{ tipo.variable }}" class="col-lg-4 form-group"> ' +
+                   '<input class="form-control" type="text" id="clinica_frontbundle_cliente_contactos___name___numero" name="clinica_frontbundle_cliente[contactos][__name__][numero]" required="required" maxlength="20" placeholder="{{ tipo.label }}"  />' +
+                   '</div>';
+               }
+
+               {% endfor %}
+
+
+               var tipo = '<div id="tipo" class="col-lg-2  form-group">' +
+                       '<select style="display: none;"  class="select2-container select2-container-disabled" id="clinica_frontbundle_cliente_contactos___name___tipo" name="clinica_frontbundle_cliente[contactos][__name__][tipo]">' +
+                       option +
+                       '</select>' +
+                       '<div class="select2-container select2-container-disabled">' +
+                       '<a href="javascript:void(0)" class="select2-choice"><span>' + label + '</span>' +
+                       '<abbr class="select2-search-choice-close" style="display:none;"></abbr>' +
+                       '</a>' +
+                       '<div class="select2-drop" style="display:none;">' +
+                       '<div class="select2-search"><input autocomplete="off" type="text">' +
+                       '</div>' +
+                       '<ul class="select2-results"></ul>' +
+                       '</div></div></div>';
+
+               var htmlForm = '' + tipo;
+
+               if (aux == 'correo') {
+                   htmlForm += correo + ' ' + observaciones;
+               } else if (aux == 'telefono') {
+                   htmlForm += numero + ' ' + observaciones;
+               } else if (aux == 'residencia') {
+                   htmlForm += servicio + ' ' + observaciones;
+               } else {
+                   htmlForm += campo + ' ' + observaciones;
+               }
+
+
+               var newForm = htmlForm.replace(/__name__/g, index);
+
+
+               // increase the index with one for the next item
+               $collectionHolder.data('index', index + 1);
+
+               // Display the form in the page in an li, before the "Add a tag" link li
+               var fila = '<div class="col-lg-12 ' + index + '"></div>';
+               var $newFormLi = $(fila).append(addTagFormDeleteLink(newForm, index));
+               $newLinkLi.before($newFormLi);
+
+
+           }
+
+           function addTagFormDeleteLink($newRow, $index) {
+
+               var botones = '<div class="col-lg-1">' +
+                       ' <a class="button btn-lg"><i class="fa fa-trash-o" onclick="eliminar(' + $index + ')"></i></a>' +
+                       '</div>';
+
+               return $newRow + ' ' + botones;
+           }
+
+           function eliminar($var) {
+
+               var selector = 'div.' + $var;
+               var filas = $(selector);
+               filas[0].remove();
+           }
+
+       </script>
+   {% endblock %}
+
+

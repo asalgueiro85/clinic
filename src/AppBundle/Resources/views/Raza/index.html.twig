@@ -1,0 +1,61 @@
+{% extends '::front_layout.html.twig' %}
+
+  {% block configuracion %} active {% endblock %}
+ {% block nomencladores %} active {% endblock %}
+ {% block nmascota %} active {% endblock %}
+ {% block raza %} class="active" {% endblock %}
+
+
+{% block body -%}
+    <h1><i class="fa fa-tags"></i> Razas</h1>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Listado de Razas</h3>
+
+                    <div class="pull-right">
+                        <a href="{{ path('raza_new') }}" class="btn  btn-xs btn-primary">Adicionar</a>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+
+
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th >Nombre</th>
+                            <th >Especie</th>
+                            <th >Descripcion</th>
+                            <th class="col-xs-2 text-center">Opciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for entity in entities %}
+                            <tr>
+                                <td>{{ entity.nombre }}</td>
+                                <td>{{ entity.especie }}</td>
+                                <td>{{ entity.descripcion }}</td>
+                                <td align="center">
+                                    <a title="Editar" style="margin-right: 20px" href="{{ path('raza_edit', { 'id': entity.id }) }}"><i class="fa fa-edit"></i></a>
+                                    <a title="Eliminar" id="delete" href="#" onclick='eliminar("{{ path('raza_delete', { 'id': entity.id }) }}")'><i class="fa fa-times-circle"></i></a>
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div><!-- /.row -->
+
+
+{% endblock %}

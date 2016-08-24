@@ -1,0 +1,53 @@
+{% extends '::front_layout.html.twig' %}
+
+{% block body -%}
+    <h2>  Listado de mascotas</h2>
+
+
+    <table class="table striped  hovered">
+        <thead>
+        <tr>
+            <th align="left">Nombre</th>
+            <th align="left">Propietario</th>
+            <th align="left">Fecha alta</th>
+            <th align="left">Especie</th>
+            <th align="left">Raza</th>
+            <th align="left">Caracter</th>
+            <th align="left" class="span1">Editar</th>
+            <th align="left" class="span1">Eliminar</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ entity.nombre }}</td>
+
+                <td>
+                {% for cliente in entity.clientes %}
+                    {{ cliente.nombre }}
+                    {% if not loop.last %}
+                        -
+                    {% endif %}
+                {% endfor %}
+                </td>
+                <td>{% if entity.fechaAlta %}{{ entity.fechaAlta|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ entity.raza.especie.nombre }}</td>
+                <td>{{ entity.raza.nombre }}</td>
+                <td>{{ entity.caracter }}</td>
+                <td class="span1 text-center"><a href="{{ path('mascota_edit', { 'id': entity.id }) }}">
+                        <span class="icon-pencil"></span></a></td>
+
+                <td class="span1 text-center"><a href="{{ path('mascota_delete', { 'id': entity.id }) }}">
+                        <span class="icon-remove"></span></a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {#<div>#}
+        {#<div class="pagination " style="margin-left: 30%">#}
+
+            {#{{ knp_pagination_render(entities) }}#}
+        {#</div>#}
+    {#</div>#}
+{% endblock %}
+
